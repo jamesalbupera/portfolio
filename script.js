@@ -29,6 +29,8 @@ const badgeTrack = document.getElementById("badge-track");
 const prevBtn = document.getElementById("carousel-prev");
 const nextBtn = document.getElementById("carousel-next");
 const themeToggle = document.getElementById("theme-toggle");
+const menuToggle = document.getElementById("menu-toggle");
+const siteNav = document.getElementById("site-nav");
 
 const lightbox = document.getElementById("image-lightbox");
 const lightboxImage = document.getElementById("lightbox-image");
@@ -55,6 +57,30 @@ const setTheme = (theme) => {
 };
 
 setTheme(getPreferredTheme());
+
+const setMenuState = (isOpen) => {
+  menuToggle.setAttribute("aria-expanded", String(isOpen));
+  siteNav.classList.toggle("is-open", isOpen);
+};
+
+menuToggle.addEventListener("click", () => {
+  const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+  setMenuState(!isOpen);
+});
+
+siteNav.querySelectorAll("a").forEach((link) => {
+  link.addEventListener("click", () => {
+    if (window.innerWidth <= 760) {
+      setMenuState(false);
+    }
+  });
+});
+
+window.addEventListener("resize", () => {
+  if (window.innerWidth > 760) {
+    setMenuState(false);
+  }
+});
 
 themeToggle.addEventListener("click", () => {
   const nextTheme =
